@@ -14,7 +14,13 @@ android {
         versionCode = 1
         versionName = "1.0.0"
     }
-    buildFeatures { compose = true }
+    buildFeatures { compose = true; buildConfig = true }
+    val instagramAppId = (project.findProperty("INSTAGRAM_APP_ID") as String?) ?: ""
+    buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "INSTAGRAM_APP_ID", "\"\${instagramAppId}\"")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
