@@ -12,7 +12,8 @@ import android.widget.Toast
 object InstagramOAuth {
     fun start(context: Context): Boolean {
         val appId = BuildConfig.INSTAGRAM_APP_ID.trim()
-        if (appId.isEmpty() || appId == "YOUR_INSTAGRAM_APP_ID") {
+        val redirectUri = BuildConfig.INSTAGRAM_REDIRECT_URI.trim()
+        if (appId.isEmpty() || redirectUri.isEmpty()) {
             Toast.makeText(
                 context,
                 "Instagram connection needs a Meta developer App ID first.",
@@ -25,7 +26,7 @@ object InstagramOAuth {
         // be a real HTTPS URL registered exactly in the Meta developer dashboard.
         val authUri = Uri.parse("https://www.instagram.com/oauth/authorize").buildUpon()
             .appendQueryParameter("client_id", appId)
-            .appendQueryParameter("redirect_uri", "https://YOUR-VERIFIED-CALLBACK.example/oauth")
+            .appendQueryParameter("redirect_uri", redirectUri)
             .appendQueryParameter("response_type", "code")
             .appendQueryParameter("scope", "instagram_business_basic,instagram_business_manage_insights")
             .appendQueryParameter("enable_fb_login", "0")
