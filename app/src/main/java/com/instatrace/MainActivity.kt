@@ -95,11 +95,29 @@ fun InstaTraceApp(db: InstaTraceDatabase) {
                             StatCard("Unfollowed", if (previous == null) "—" else changes.lost.size.toString(), Modifier.weight(1f))
                             StatCard("New followers", if (previous == null) "—" else changes.gained.size.toString(), Modifier.weight(1f))
                         }
-                        Button(onClick = { launcher.launch(arrayOf("application/zip", "application/octet-stream", "*/*")) }, enabled = !busy, modifier = Modifier.fillMaxWidth()) {
-                            Icon(Icons.Default.FileOpen, contentDescription = null); Spacer(Modifier.width(8.dp))
-                            Text(if (busy) "Importing…" else "Import Instagram data ZIP")
+                        Button(
+                            onClick = { InstagramOAuth.start(context) },
+                            enabled = !busy,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(Icons.Default.Link, contentDescription = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text("Connect Instagram")
                         }
-                        Text("First import = baseline. Import another export later to compare.", style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "Official account authorization. A Meta developer app and a secure callback service must be configured before connection can complete.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        OutlinedButton(
+                            onClick = { launcher.launch(arrayOf("application/zip", "application/octet-stream", "*/*")) },
+                            enabled = !busy,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(Icons.Default.FileOpen, contentDescription = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(if (busy) "Importing…" else "Import data export (fallback)")
+                        }
                     }
                 }
                 notice?.let { Text(it, color = MaterialTheme.colorScheme.primary) }

@@ -1,9 +1,24 @@
 # InstaTrace Android — privacy-first follower history
 
-This is an Android Studio project starter for a local Instagram export analyzer.
+This is an Android Studio project for private, on-device follower snapshot analysis with an in-progress official Instagram authorization integration.
+
+## Instagram connection (in progress)
+
+The Android app now has a **Connect Instagram** entry point that opens Meta/Instagram's official authorization page. It does not ask for or store an Instagram password.
+
+This is an OAuth integration foundation, **not a complete connected tracker yet**. To enable the button, add these Gradle project properties (never commit real secrets):
+
+```properties
+INSTAGRAM_APP_ID=your_meta_app_id
+INSTAGRAM_REDIRECT_URI=https://your-verified-domain.example/instagram/callback
+```
+
+Register the exact redirect URI in the Meta developer dashboard. A production integration also needs a secure HTTPS backend to validate the callback and exchange the authorization code using the Meta app secret; **the app secret must never be embedded in the APK**. The backend/token exchange and live API data sync are not implemented yet, so authorization alone will not populate follower data.
+
+Meta's supported Instagram APIs are intended for eligible professional accounts and do not provide a complete follower-list/history API for arbitrary personal accounts. This app must not claim to identify profile visitors or all unfollowers through unsupported endpoints. No credentials are collected by InstaTrace.
 
 ## What it does
-- Imports Instagram's downloaded information ZIP on-device (no upload).
+- Provides an official Instagram authorization entry point (requires Meta app and backend configuration).\n- Can import Instagram's downloaded information ZIP on-device as a fallback (no upload).
 - Extracts follower and following usernames from common JSON/HTML export formats.
 - Stores each imported snapshot in a local Room database.
 - Compares the newest two snapshots to show lost followers and new followers.
