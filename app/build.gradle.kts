@@ -16,9 +16,11 @@ android {
     }
     buildFeatures { compose = true; buildConfig = true }
     val instagramAppId = (project.findProperty("INSTAGRAM_APP_ID") as String?) ?: ""
+    val instagramRedirectUri = (project.findProperty("INSTAGRAM_REDIRECT_URI") as String?) ?: ""
     buildTypes {
         getByName("debug") {
-            buildConfigField("String", "INSTAGRAM_APP_ID", "\"\${instagramAppId}\"")
+            buildConfigField("String", "INSTAGRAM_APP_ID", "\"$instagramAppId\"")
+            buildConfigField("String", "INSTAGRAM_REDIRECT_URI", "\"$instagramRedirectUri\"")
         }
     }
     compileOptions {
